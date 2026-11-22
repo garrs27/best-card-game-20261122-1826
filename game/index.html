@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Emberline Duel — a 3-lane card duel</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="app">
+
+  <!-- ============ TITLE SCREEN ============ -->
+  <section id="screen-title" class="screen">
+    <div class="title-ember" aria-hidden="true">🔥</div>
+    <h1 class="game-title">EMBERLINE<br>DUEL</h1>
+    <p class="tagline">Three lanes. Twelve cards. One spark decides it.</p>
+    <div class="title-buttons">
+      <button id="btn-play" class="btn btn-big">▶ Play Duel</button>
+      <button id="btn-howto" class="btn">How to play</button>
+    </div>
+    <div class="title-features">
+      <div class="feature"><span class="feature-num">12</span> original cards</div>
+      <div class="feature"><span class="feature-num">7</span> keywords</div>
+      <div class="feature"><span class="feature-num">3</span> lanes</div>
+      <div class="feature"><span class="feature-num">20</span> life each</div>
+    </div>
+    <div class="title-kws">
+      <span class="kw guard">⛨ Guard</span>
+      <span class="kw swift">⚡ Swift</span>
+      <span class="kw rally">⇑ Rally</span>
+      <span class="kw mend">✚ Mend</span>
+      <span class="kw burn">♨ Burn</span>
+      <span class="kw frost">❄ Frost</span>
+      <span class="kw draw">▤ Draw</span>
+    </div>
+    <div id="howto" class="howto hidden">
+      <h2>How to play</h2>
+      <ul>
+        <li><b>Goal:</b> reduce the enemy Emberlord's life from <b>20</b> to <b>0</b> before yours falls.</li>
+        <li><b>Ember</b> is your mana: it starts at 1 and grows by 1 every turn, up to 10. Cards cost ember to play.</li>
+        <li><b>Play:</b> click a card in your hand, then click one of the three lanes. Press <b>End Turn</b> (or Enter) when done.</li>
+        <li><b>Combat:</b> after the enemy plays, creatures in each lane fight. <b>Swift</b> strikes first; a surviving creature whose foe is gone hits the enemy life — unless a <b>Guard</b> stands in that lane.</li>
+        <li><b>Keywords:</b> <span class="kw guard">⛨ Guard</span> shields its lane's life — even falling, it absorbs that round's blow ·
+          <span class="kw swift">⚡ Swift</span> strikes first ·
+          <span class="kw rally">⇑ Rally</span> gives adjacent allies +1 attack ·
+          <span class="kw mend">✚ Mend</span> heals you 3 ·
+          <span class="kw burn">♨ Burn</span> deals 1 to enemy life ·
+          <span class="kw frost">❄ Frost</span> freezes the foe in its lane ·
+          <span class="kw draw">▤ Draw</span> draws a card.</li>
+        <li><b>Keys:</b> 1–7 select a hand card · Enter/Space ends your turn · Esc back to title · M mute.</li>
+      </ul>
+    </div>
+    <p id="best-line" class="best-line hidden"></p>
+    <p class="foot">Original game · plays fully offline · no account, no network</p>
+  </section>
+
+  <!-- ============ TABLE SCREEN ============ -->
+  <section id="screen-table" class="screen hidden">
+    <header class="hud">
+      <div class="side-panel ai-panel">
+        <div class="portrait ai-portrait" title="Emberlord">👹</div>
+        <div class="side-info">
+          <div class="side-name">EMBERLORD <span class="side-tag">AI</span></div>
+          <div class="life-row"><span class="life-label">LIFE</span><span id="ai-life" class="life">20</span></div>
+          <div class="deck-row">Deck <span id="ai-deck">21</span> · Ember <span id="ai-ember">1</span>🔥</div>
+        </div>
+        <div id="ai-hand" class="mini-hand" title="Enemy hand (face down)"></div>
+      </div>
+      <div class="mid-hud">
+        <div class="turn-badge">TURN <span id="turn-num">1</span></div>
+        <div class="phase-line" id="phase-line">Your turn — play a card, then End Turn</div>
+        <button id="btn-end-turn" class="btn btn-end">End Turn ⏎</button>
+      </div>
+      <div class="side-panel you-panel">
+        <div class="side-info right">
+          <div class="side-name">YOU <span class="side-tag">DUELIST</span></div>
+          <div class="life-row"><span class="life-label">LIFE</span><span id="you-life" class="life">20</span></div>
+          <div class="deck-row">Deck <span id="you-deck">21</span> · Ember <span id="you-ember" class="ember">1</span>🔥 / <span id="you-ember-max">1</span></div>
+        </div>
+        <div class="portrait you-portrait" title="You">🧑‍🎤</div>
+        <button id="btn-mute" class="btn btn-small" title="Mute (M)">🔊 Sound on</button>
+      </div>
+    </header>
+
+    <main class="board" id="board">
+      <div class="lane" data-lane="0">
+        <div class="lane-label">LANE 1 · <span class="lane-sub">Ember Row</span></div>
+        <div class="lane-slots">
+          <div class="slot ai-slot" data-side="ai" data-lane="0"></div>
+          <div class="slot you-slot" data-side="you" data-lane="0"></div>
+        </div>
+      </div>
+      <div class="lane" data-lane="1">
+        <div class="lane-label">LANE 2 · <span class="lane-sub">Cinder Row</span></div>
+        <div class="lane-slots">
+          <div class="slot ai-slot" data-side="ai" data-lane="1"></div>
+          <div class="slot you-slot" data-side="you" data-lane="1"></div>
+        </div>
+      </div>
+      <div class="lane" data-lane="2">
+        <div class="lane-label">LANE 3 · <span class="lane-sub">Ash Row</span></div>
+        <div class="lane-slots">
+          <div class="slot ai-slot" data-side="ai" data-lane="2"></div>
+          <div class="slot you-slot" data-side="you" data-lane="2"></div>
+        </div>
+      </div>
+      <div id="floaters"></div>
+    </main>
+
+    <footer class="table-foot">
+      <div id="hand" class="hand"></div>
+      <aside class="log-panel">
+        <div class="log-title">⚔ COMBAT LOG</div>
+        <ol id="combat-log" class="combat-log"></ol>
+      </aside>
+    </footer>
+    <p class="hint">Click a card, then a lane · 1–7 select · Enter ends turn · Esc title · M mute</p>
+  </section>
+
+  <!-- ============ END SCREENS ============ -->
+  <section id="screen-end" class="screen hidden">
+    <div id="confetti" class="confetti" aria-hidden="true"></div>
+    <h1 id="end-title" class="end-title">VICTORY</h1>
+    <p id="end-sub" class="end-sub"></p>
+    <div class="stats">
+      <div class="stat"><span class="stat-num" id="stat-turns">0</span><span class="stat-label">turns</span></div>
+      <div class="stat"><span class="stat-num" id="stat-damage">0</span><span class="stat-label">damage dealt</span></div>
+      <div class="stat"><span class="stat-num" id="stat-played">0</span><span class="stat-label">cards played</span></div>
+    </div>
+    <div class="title-buttons">
+      <button id="btn-again" class="btn btn-big">↻ Play again</button>
+      <button id="btn-title" class="btn">Back to title</button>
+    </div>
+  </section>
+
+</div>
+<script src="js/cards.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/ai.js"></script>
+<script src="js/game.js"></script>
+<script src="js/render.js"></script>
+<script src="js/input.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
