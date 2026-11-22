@@ -58,6 +58,25 @@
     $('ai-ember').textContent = s.ai.ember;
     $('you-ember').textContent = s.you.ember;
     $('you-ember-max').textContent = s.you.maxEmber;
+
+    // Life bars + ember pips: the same numbers as shapes, readable at a
+    // glance in a screenshot — bar width is life out of the 20 both
+    // duelists start with, one pip per ember crystal (lit = spendable).
+    var MAX_LIFE = 20;
+    $('ai-life-fill').style.width = Math.min(100, Math.max(0, s.ai.life) / MAX_LIFE * 100) + '%';
+    $('you-life-fill').style.width = Math.min(100, Math.max(0, s.you.life) / MAX_LIFE * 100) + '%';
+    $('ai-life-bar').classList.toggle('low', s.ai.life <= 5);
+    $('you-life-bar').classList.toggle('low', s.you.life <= 5);
+    [['ai-ember-pips', s.ai], ['you-ember-pips', s.you]].forEach(function (pair) {
+      var host = $(pair[0]);
+      var side = pair[1];
+      host.innerHTML = '';
+      for (var i = 0; i < side.maxEmber; i++) {
+        var pip = document.createElement('span');
+        pip.className = 'pip' + (i < side.ember ? ' on' : '');
+        host.appendChild(pip);
+      }
+    });
     $('turn-num').textContent = s.turn;
     var phaseText = {
       player: 'Your turn — play a card, then End Turn',

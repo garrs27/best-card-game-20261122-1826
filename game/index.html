@@ -11,9 +11,20 @@
 
   <!-- ============ TITLE SCREEN ============ -->
   <section id="screen-title" class="screen">
+    <div class="ember-field" aria-hidden="true">
+      <i style="--x:6%;--s:5px;--t:8.5s;--d:-1.2s"></i><i style="--x:13%;--s:3px;--t:11s;--d:-6.4s"></i>
+      <i style="--x:21%;--s:6px;--t:9.4s;--d:-3.8s"></i><i style="--x:29%;--s:3px;--t:12s;--d:-9.1s"></i>
+      <i style="--x:36%;--s:4px;--t:8s;--d:-5.5s"></i><i style="--x:44%;--s:3px;--t:10.6s;--d:-2.2s"></i>
+      <i style="--x:52%;--s:6px;--t:9s;--d:-7.7s"></i><i style="--x:59%;--s:3px;--t:11.6s;--d:-4.4s"></i>
+      <i style="--x:66%;--s:5px;--t:8.8s;--d:-8.3s"></i><i style="--x:73%;--s:3px;--t:12.4s;--d:-1.9s"></i>
+      <i style="--x:80%;--s:4px;--t:9.8s;--d:-6.9s"></i><i style="--x:87%;--s:6px;--t:8.2s;--d:-3.1s"></i>
+      <i style="--x:93%;--s:3px;--t:11.2s;--d:-10.2s"></i><i style="--x:17%;--s:4px;--t:10s;--d:-0.6s"></i>
+      <i style="--x:48%;--s:3px;--t:12.8s;--d:-11.5s"></i><i style="--x:70%;--s:4px;--t:10.2s;--d:-5.9s"></i>
+    </div>
     <div class="title-ember" aria-hidden="true">🔥</div>
     <h1 class="game-title">EMBERLINE<br>DUEL</h1>
     <p class="tagline">Three lanes. Twelve cards. One spark decides it.</p>
+    <div class="ember-line" aria-hidden="true"><span></span></div>
     <div class="title-buttons">
       <button id="btn-play" class="btn btn-big">▶ Play Duel</button>
       <button id="btn-howto" class="btn">How to play</button>
@@ -62,7 +73,9 @@
         <div class="side-info">
           <div class="side-name">EMBERLORD <span class="side-tag">AI</span></div>
           <div class="life-row"><span class="life-label">LIFE</span><span id="ai-life" class="life">20</span></div>
+          <div class="life-bar" id="ai-life-bar"><i id="ai-life-fill"></i></div>
           <div class="deck-row">Deck <span id="ai-deck">21</span> · Ember <span id="ai-ember">1</span>🔥</div>
+          <div class="ember-pips small" id="ai-ember-pips" title="Emberlord's ember"></div>
         </div>
         <div id="ai-hand" class="mini-hand" title="Enemy hand (face down)"></div>
       </div>
@@ -75,7 +88,9 @@
         <div class="side-info right">
           <div class="side-name">YOU <span class="side-tag">DUELIST</span></div>
           <div class="life-row"><span class="life-label">LIFE</span><span id="you-life" class="life">20</span></div>
+          <div class="life-bar" id="you-life-bar"><i id="you-life-fill"></i></div>
           <div class="deck-row">Deck <span id="you-deck">21</span> · Ember <span id="you-ember" class="ember">1</span>🔥 / <span id="you-ember-max">1</span></div>
+          <div class="ember-pips" id="you-ember-pips" title="Your ember — one lit pip per ember ready to spend"></div>
         </div>
         <div class="portrait you-portrait" title="You">🧑‍🎤</div>
         <button id="btn-mute" class="btn btn-small" title="Mute (M)">🔊 Sound on</button>
