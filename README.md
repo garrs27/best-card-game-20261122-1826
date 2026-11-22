@@ -6,6 +6,10 @@
 
 **Emberline Duel** — a 3-lane creature card duel against a readable AI: 12 original cards with Guard, Swift, Rally, Mend, Burn, Frost and Draw keywords, ember mana that grows every turn, lane combat where Swift strikes first and Guards shield your life, a combat log, floating damage numbers, WebAudio bleeps and a mute toggle. Fully offline, keyboard + mouse, zero network requests.
 
+## v2 polish
+
+Version 2 is a visual pass over the same game: life bars and ember pips in both HUD panels, a framed board with solid tinted lanes, keyword-colour glows on creatures and card faces, and an ember-spark title screen. No rules, cards or balance changed — only how the game reads at first glance.
+
 ## Run it
 
 ```sh
